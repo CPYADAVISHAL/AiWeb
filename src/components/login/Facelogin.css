@@ -1,0 +1,47 @@
+/* General layout styling */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #6e45e2 0%, #88d3ce 100%);
+    color: #fff;
+}
+
+.login-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.webcam-view {
+    border: 4px solid #fff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.login-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #45a049;
+}
+
+.login-button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.login-message {
+    margin-top: 20px;
+    font-size: 1.1rem;
+}

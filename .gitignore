@@ -1,0 +1,57 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# React build files
+/build
+/dist
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor-specific files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.env
+
+# Miscellaneous
+coverage/
+*.iml
+*.swp
+
+# Ignore backend-related files (if in same project)
+backend/.venv/
+backend/.pytest_cache/
+backend/migrations/
+backend/*.sqlite3
+backend/static/
+backend/media/
+
+# Ignore API service folders (if not needed)
+services/__pycache__/
+services/*.pyc

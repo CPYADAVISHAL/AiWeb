@@ -1,0 +1,21 @@
+.smart_flex{
+    display: flex;
+    flex-direction: row;
+    font-size:2em;
+   
+
+}
+.smart_head{
+    font-size: 1em;
+}
+.smart_color{
+    /* font-size:2em; */
+    color: rgb(64, 64, 213) ;
+}
+.viewall{
+    position: absolute;
+    margin-left: 80%;
+}
+.AddtoCart{
+    margin-top: 5%;
+}

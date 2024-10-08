@@ -1,0 +1,46 @@
+.deals-container {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .deals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .deal-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    text-align: center;
+  }
+  
+  .deal-card img {
+    max-width: 40%;
+    height: 35%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 16px;
+  }
+  
+  .deal-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .original-price {
+    text-decoration: line-through;
+    color: #999;
+  }
+  
+  .discounted-price {
+    font-size: 20px;
+    color: #2d9cdb;
+    margin: 8px 0;
+  }
+  
+  .savings {
+    color: #27ae60;
+  }
+  

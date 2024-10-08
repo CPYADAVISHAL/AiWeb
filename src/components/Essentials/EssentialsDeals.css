@@ -1,0 +1,60 @@
+.essentials-container {
+    padding: 2%;
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 1.5em;
+    margin-bottom: 1.5em;
+  }
+  
+  .highlight {
+    color: #2d9cdb;
+  }
+  
+  .essentials-grid {
+    display: flex;
+    justify-content: space-between;
+    overflow-x: auto; /* Allows horizontal scrolling if there are too many items */
+    padding: 1em 0;
+    gap: 1em;
+  }
+  
+  .deal-card {
+    background: #fff;
+    border-radius: 0.5em;
+    box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    text-align: center;
+    flex: 0 0 15%; /* This sets the width of the card */
+    min-width: 200px; /* Minimum width to ensure responsiveness */
+  }
+  
+  .deal-image {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5em;
+  }
+  
+  h3 {
+    font-size: 1.125em;
+    margin: 0.5em 0;
+  }
+  
+  .discount {
+    color: #27ae60;
+    font-size: 1em;
+  }
+  
+  .view-all-link {
+    display: block;
+    margin-top: 1em;
+    color: #2d9cdb;
+    text-decoration: none;
+    font-size: 1em;
+  }
+  
+  .view-all-link:hover {
+    text-decoration: underline;
+  }
+  

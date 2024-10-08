@@ -1,0 +1,47 @@
+.cdeals-container {
+    padding: 10px;
+    text-align: center;
+    height: 40%;
+    object-fit: cover;
+    max-height: 250px;
+    overflow: hidden;
+    
+  }
+
+  .cdeals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+    gap: 20px;
+  
+  }
+  /* .cdeals-grid {
+    display: flex;
+    /* grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap: 20px; */
+    /* flex-direction: row;
+    gap: 20px;
+    height: 300px;
+    width: 300px;
+  
+  } */ 
+  .cdeal-card {
+    background: #fff;
+    /* border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    /* padding: 16px; */
+    text-align: center;
+    height: 280px;
+    padding-top: 5%;
+  }
+  
+  .cdeal-card img {
+    width: 60%;
+    height: 40%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 16px;
+    border-radius: 50%;
+    object-fit: cover;
+
+  }
+  
+  
