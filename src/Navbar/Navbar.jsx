@@ -59,9 +59,17 @@ function Navbar() {
           size="large"
           onClick={() => handleClick("/sell")}
         >
-        ELECTRONICS
+     KIDS
         </MyButton>
-        <MyButton onClick={() => handleClick('/signup')}>
+        <MyButton
+          variant="outlined"
+          color="secondary"
+          size="large"
+          onClick={() => handleClick("/chat")}
+        >
+    ChatBot
+        </MyButton>
+        <MyButton onClick={() => handleClick('/logincontrol')}>
                 <LoginIcon className="icon-login" />
                 &nbsp;Login/Register
               </MyButton>

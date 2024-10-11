@@ -1,56 +1,55 @@
 import React, { useState, useRef } from 'react';
 import Webcam from 'react-webcam';
-import "./Facelogin.css" // Import custom CSS for styling
-import { authenticateUser } from '../../services/api'; // Ensure API call is correct
-import { useNavigate, Link } from "react-router-dom";
+import { authenticateUser } from '../../services/api';
+import './Facelogin.css'; // Import the CSS file for styling
+
 const FaceLogin = () => {
-    const navigate = useNavigate();
     const webcamRef = useRef(null);
-    const [message, setMessage] = useState('Please capture an image for login.');
-    const [loading, setLoading] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [message, setMessage] = useState('Capture image for login');
 
     const capture = async () => {
         const imageSrc = webcamRef.current.getScreenshot();
-        if (imageSrc) {
-            setLoading(true);
+        if (imageSrc && userId) {
             try {
-                const response = await authenticateUser(imageSrc);
-                 // Send image to backend for authentication
-                 alert(`Welcome ${response.user}`)
-                 navigate("/")
-              
-                if (response.user) {
-                    setMessage(`Login successful! ${response.user}`);
-                    
+                const response = await authenticateUser(imageSrc, userId);
+                if (response.message === "User signed in successfully!") {
+                    setMessage('Login successful!');
                 } else {
                     setMessage('Login failed. Try again.');
                 }
             } catch (error) {
-                setMessage('Error during login. Please try again.');
-                console.error(error);
-            } finally {
-                setLoading(false);
+                console.error('Error during login:', error);
+                setMessage('Error during login. Try again.');
             }
         } else {
-            setMessage('Failed to capture image. Please try again.');
+            setMessage('Failed to capture image or user ID missing.');
         }
     };
 
     return (
         <div className="login-container">
-            <h2 className="login-title">Face Recognition Login</h2>
-            <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                width={320}
-                height={240}
-                className="webcam-view"
-            />
-            <button className="login-button" onClick={capture} disabled={loading}>
-                {loading ? 'Logging in...' : 'Login with Face'}
-            </button>
-            <p className="login-message">{message}</p>
+            <div className="login-box">
+                <h2>Face Recognition Login</h2>
+                <input 
+                    type="text" 
+                    placeholder="Enter User ID" 
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)} 
+                    className="login-input"
+                />
+                <Webcam 
+                    ref={webcamRef} 
+                    screenshotFormat="image/jpeg" 
+                    width={350}
+                    height={250}
+                    className="webcam"
+                />
+                <button onClick={capture} className="login-btn">
+                    Login with Face
+                </button>
+                <p className="message">{message}</p>
+            </div>
         </div>
     );
 };

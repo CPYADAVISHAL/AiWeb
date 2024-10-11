@@ -1,15 +1,15 @@
-/* Container for the entire login page */
-.login-container {
+/* Container for the entire sign-up page */
+.signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
     font-family: 'Arial', sans-serif;
 }
 
-/* Box around the login form */
-.login-box {
+/* Box around the form */
+.signup-box {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
@@ -18,14 +18,14 @@
     width: 400px;
 }
 
-/* Login title */
-.login-box h2 {
+/* Sign-up title */
+.signup-box h2 {
     margin-bottom: 20px;
     color: #333;
 }
 
 /* Styling the input field */
-.login-input {
+.signup-input {
     width: 80%;
     padding: 10px;
     margin-bottom: 15px;
@@ -43,7 +43,7 @@
 }
 
 /* Button styling */
-.login-btn {
+.signup-btn {
     background-color: #4caf50;
     color: white;
     border: none;
@@ -55,7 +55,7 @@
 }
 
 /* Button hover effect */
-.login-btn:hover {
+.signup-btn:hover {
     background-color: #45a049;
 }
 

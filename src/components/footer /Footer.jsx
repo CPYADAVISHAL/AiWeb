@@ -1,7 +1,7 @@
 import React from "react";
 import "./Footer.css";
-import adarshImage from "../../image/C2.png"; // Replace with actual image path
-import cpyadavImage from "../../image/C3.png"; // Replace with actual image path
+import tofiqImage from "../../image/tofiq.png"; // Replace with actual image path
+import cpyadavImage from "../../image/cp.jpeg"; // Replace with actual image path
 import dofeImage from "../../image/C4.png"; // Replace with actual image path
 // import { useTheme } from '../../contexts/theme/ThemeContext';
 
@@ -13,20 +13,20 @@ const Footer = () => {
       {/* Section 1: Navigation */}
       <div className="footer-section">
         <div className="made-with-love">
-          <p>MADE WITH LOVE</p>
+          <p>FUTURE OF E-SHOPPING</p>
           <img src={dofeImage} alt="DOFE Memes" className="dofe-image" />
         </div>
       </div>
 
       {/* Section 2: Development Team */}
       <div className="footer-section">
-        <p className="development-team">SuperDev Team</p>
+        <p className="development-team">Our Team</p>
         <div className="person-gallery">
           
           <div className="person-card">
             {/* Adarsh Pathak's GitHub Link */}
-            <a href="https://www.linkedin.com/in/adarshrajpathak/" target="_blank" rel="noopener noreferrer">
-              <img src={adarshImage} alt="Adarsh Pathak" />
+            <a href="https://www.linkedin.com/in/" target="_blank" rel="noopener noreferrer">
+              <img src={tofiqImage} alt="tofiq" />
             </a>
             <p className="person-name">Tofique</p>
           </div>
