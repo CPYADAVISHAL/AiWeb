@@ -14,9 +14,9 @@ const LandingPage = () => {
       {/* <Header /> */}
       <Navbar />
       <Carousel />
-      <Smartphone />
+      <Smartphone />x
       <EssentialsDeals />
-      <Footer />
+      <Footer /> 
    {/* <SliderComponent /> */}
       {/* <Footer /> */}
     </div>

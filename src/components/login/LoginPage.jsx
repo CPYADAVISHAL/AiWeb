@@ -1,55 +1,91 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import "./LoginPage.css"; // Custom styling
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Typography, Container, Box, Paper } from "@mui/material";
 
 const SignUpPage = () => {
-  const [userId, setUserId] = useState("");
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
-  const handleFaceSignUp = async () => {
-    // Handle face sign-up logic (e.g., API call)
-    // After successful sign-up, navigate to another page
-    navigate("/face-signup-success"); // Replace with the path you want to navigate to
+  const handleFaceSignUp = () => {
+    navigate("/facesignin");
   };
 
   const handleVoiceSignUp = () => {
-    console.log("Voice sign-up not implemented yet.");
-    navigate("/voice-signup-success"); // Navigate to the voice sign-up success page
+    navigate("/voice-signup-success");
   };
 
   const handleGoogleSignUp = () => {
-    console.log("Google Sign-up not implemented yet.");
-    navigate("/google-signup-success"); // Navigate to the Google sign-up success page
+    navigate("/google-signup-success");
   };
 
   return (
-    <div className="signup-container">
-      <h2 className="signup-title">Sign Up</h2>
+    <Box sx={{ position: "relative", height: "100vh" }}>
+      {/* Sign-Up Card */}
+      <Container
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 2,
+        }}
+      >
+        <Paper
+          elevation={10}
+          sx={{
+            padding: 4,
+            borderRadius: 3,
+            textAlign: "center",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+          }}
+        >
+          <Typography variant="h4" component="h2" sx={{ mb: 3, color: "#0d47a1" }}>
+            Sign Up
+          </Typography>
 
-      {/* Face Authentication */}
-      <div className="signup-option">
-        <h4>Sign up with Face</h4>
-        <button className="signup-button" onClick={handleFaceSignUp}>
-          Sign Up with Face
-        </button>
-      </div>
+          {/* Face Authentication */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h6">Sign up with Face</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleFaceSignUp}
+              sx={{ mt: 1 }}
+            >
+              Sign Up with Face
+            </Button>
+          </Box>
 
-      {/* Voice Authentication */}
-      <div className="signup-option">
-        <h4>Sign up with Voice</h4>
-        <button className="signup-button" onClick={handleVoiceSignUp}>
-          Sign Up with Voice
-        </button>
-      </div>
+          {/* Voice Authentication */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h6">Sign up with Voice</Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleVoiceSignUp}
+              sx={{ mt: 1 }}
+            >
+              Sign Up with Voice
+            </Button>
+          </Box>
 
-      {/* Google Authentication */}
-      <div className="signup-option">
-        <h4>Sign up with Google</h4>
-        <button className="signup-button google-button" onClick={handleGoogleSignUp}>
-          Sign Up with Google
-        </button>
-      </div>
-    </div>
+          {/* Google Authentication */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="h6">Sign up with Google</Typography>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "#dd4b39",
+                color: "#fff",
+              }}
+              onClick={handleGoogleSignUp}
+              sx={{ mt: 1 }}
+            >
+              Sign Up with Google
+            </Button>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   );
 };
 

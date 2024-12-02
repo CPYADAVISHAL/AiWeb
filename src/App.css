@@ -1,4 +1,7 @@
 .background{
 background-color: #fcfaff;
+/* z-index: -1;
+opacity: 0.1; */
 background-image: url("https://www.transparenttextures.com/patterns/climpek.png");
+/* background-image:url("./image/background.jpeg") */
 }

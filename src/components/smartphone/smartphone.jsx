@@ -1,26 +1,44 @@
 import React from "react";
-import "./smart.css";
-import SmartphoneDeals from "./smartcard";
-import MyButton from "../Button/Button";
+import { Box, Typography, Button, Grid, Container } from "@mui/material";
+import SmartphoneDeals from "./phonecard";
 
 const Smartphone = () => {
   return (
-    <>
-      <div className="smart_flex" style={{ marginTop: '2%' }}>
-        <div className="smart_head">
-          Grab the best deal on <span className="smart_color">Smartphone</span>
-        </div>
-        <div className="viewall">
-          <MyButton variant="outlined" color="secondary" size="large">
-            Viewall
-          </MyButton>
+    <Container maxWidth="lg" sx={{ mt: 4 }}>
+      {/* Header Section */}
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        flexWrap="wrap"
+        sx={{
+          mb: 3,
+          borderBottom: "2px solid #f0f0f5",
+          pb: 1,
+        }}
+      >
+        <Typography
+          variant="h4"
+          component="h2"
+          color="primary"
+          sx={{ fontWeight: "bold", textTransform: "uppercase" }}
+        >
+          Grab the Best Deal on{" "}
+          <span style={{ color: "rgb(64, 64, 213)" }}>Smartphones</span>
+        </Typography>
+        <Button
+          variant="outlined"
+          color="secondary"
+          size="large"
+          sx={{ mt: { xs: 2, sm: 0 } }}
+        >
+          View All
+        </Button>
+      </Box>
 
-   
-        </div>
-      </div>
+      {/* Deals Section */}
       <SmartphoneDeals />
-      
-    </>
+    </Container>
   );
 };
 
