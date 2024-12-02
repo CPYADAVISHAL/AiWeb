@@ -1,0 +1,71 @@
+.radio-option {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    border-radius: 0.5rem; /* Rounded-lg */
+    padding: 1rem 1.25rem; /* px-5 py-4 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow-md */
+    outline: none;
+  }
+  
+  .radio-option-checked {
+    background-color: #4f46e5; /* Indigo-600 */
+    background-opacity: 0.75; /* Bg-opacity-75 */
+    color: white;
+  }
+  
+  .radio-option-unchecked {
+    background-color: white;
+    color: #1f2937; /* Gray-900 */
+  }
+  
+  .radio-option-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .radio-option-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .radio-option-text {
+    font-size: 0.875rem; /* Text-sm */
+    font-weight: 500; /* Font-medium */
+  }
+  
+  .radio-option-text-checked {
+    color: white;
+  }
+  
+  .radio-option-text-unchecked {
+    color: #1f2937; /* Gray-900 */
+  }
+  
+  .radio-option-image {
+    object-fit: cover; /* Object-cover */
+    height: 2.5rem; /* H-10 */
+    width: 2.5rem; /* W-10 */
+    border-radius: 50%; /* Rounded-full */
+  }
+  
+  .check-icon {
+    height: 1.5rem; /* H-6 */
+    width: 1.5rem; /* W-6 */
+    color: white;
+  }
+  
+  .circle {
+    fill: #fff;
+    opacity: 0.2;
+  }
+  
+  .check-path {
+    stroke: #fff;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  

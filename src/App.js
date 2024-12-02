@@ -9,6 +9,8 @@ import SignUp from "./components/login/SignUp";
 import ChatBot from "./components/ChatBot/chatbot";
 import Loader from "./Pages/Loader/Loader"; // Import the Loader component
 import UserSelect from "./components/login/FaceAuth/UserSelect";
+import FaceLogin from "./components/login/FaceAuth/FaceLogin";
+import Protected from "./components/login/FaceAuth/Protected";
 // import Men from "./Pages/Men/Men";
 // import Women from "./Pages/Men/Women";
 // import Kids from "./Pages/Men/Kids";
@@ -35,6 +37,8 @@ function App() {
           <Route path="/chat" element={<ChatBot />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/notcart" element={<NotLogin />} />
+          <Route path="/facescan" element={<FaceLogin />} /> 
+          <Route path="/protected" element={<Protected />} />  
           {/* <Route path="/men" element={<Men />} />
           <Route path="/women" element={<Women />} />
           <Route path="/kids" element={<Women />} /> */}

@@ -1,0 +1,110 @@
+/* Main Container */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 16px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Titles */
+  .loading-title, .success-title, .error-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  .success-title {
+    color: #4caf50;
+  }
+  
+  .error-title {
+    color: #f44336;
+  }
+  
+  /* Video and Canvas */
+  .video-container {
+    position: relative;
+    width: 640px;
+    height: 360px;
+    margin-top: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #000;
+  }
+  
+  .video-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .canvas-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Buttons */
+  .scan-button {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .scan-button:hover {
+    background-color: #45a049;
+  }
+  
+  .disabled-button {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 20px;
+    background-color: #ccc;
+    color: #666;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: not-allowed;
+  }
+  
+  .auth-idle, .auth-face {
+    display: block;
+    margin: 0 auto;
+    max-width: 200px;
+  }
+  
+  /* Error Container */
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+  }
+  
+  .error-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  
+  .error-container span {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 8px;
+  }
+  
