@@ -54,7 +54,7 @@ function UserSelect() {
 
   return (
     <div className="container">
-      <h1 className="title">Select User to Log In</h1>
+      <h1 className="title">Select User to Log in</h1>
       <div className="content">
         <RadioGroup value={selected} onChange={setSelected}>
           <div className="radio-group">

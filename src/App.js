@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import NotLogin from "./Pages/Cart/notLogin";
 import { CartProvider } from "./context/CartContext";
-// import "./App.css";
+
 import LoginPage from "./components/login/LoginPage";
 import SignUp from "./components/login/SignUp";
 import ChatBot from "./components/ChatBot/chatbot";
@@ -14,9 +14,9 @@ import Protected from "./components/login/FaceAuth/Protected";
 // import Men from "./Pages/Men/Men";
 // import Women from "./Pages/Men/Women";
 // import Kids from "./Pages/Men/Kids";
+import Arvr from "./Pages/Arvr/arvr"
 function App() {
   const [loading, setLoading] = useState(true);
-
   // Function to handle the end of the loader video
   const handleVideoEnd = () => {
     setLoading(false); // Hide loader and show main app content
@@ -39,6 +39,7 @@ function App() {
           <Route path="/notcart" element={<NotLogin />} />
           <Route path="/facescan" element={<FaceLogin />} /> 
           <Route path="/protected" element={<Protected />} />  
+          <Route path="/arvr" element={<Arvr />} />  
           {/* <Route path="/men" element={<Men />} />
           <Route path="/women" element={<Women />} />
           <Route path="/kids" element={<Women />} /> */}

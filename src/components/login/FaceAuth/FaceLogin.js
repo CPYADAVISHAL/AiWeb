@@ -3,61 +3,56 @@ import * as faceapi from "face-api.js";
 import AuthIdle from "../../../assets/auth-idle.svg";
 import AuthFace from "../../../assets/auth-face.svg";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import "./FaceLogin.css"; // Import the CSS file
 
-function FaceLogin() {
-  const [tempAccount, setTempAccount] = useState(null); // tempAccount can be null initially
+function Login() {
+  const [tempAccount, setTempAccount] = useState("");
   const [localUserStream, setLocalUserStream] = useState(null);
   const [modelsLoaded, setModelsLoaded] = useState(false);
+  const [faceApiLoaded, setFaceApiLoaded] = useState(false);
   const [loginResult, setLoginResult] = useState("PENDING");
   const [imageError, setImageError] = useState(false);
   const [counter, setCounter] = useState(5);
-  const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const faceApiIntervalRef = useRef(null);
+  const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState({});
+  const videoRef = useRef();
+  const canvasRef = useRef();
+  const faceApiIntervalRef = useRef();
   const videoWidth = 640;
   const videoHeight = 360;
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const shouldRedirect = !location?.state;
+  if (!location?.state) {
+    return <Navigate to="/" replace={true} />;
+  }
 
   const loadModels = async () => {
+    // const uri = import.meta.env.DEV ? "/models" : "/react-face-auth/models";
     const uri = "/models";
 
-    // Load all the necessary models for face-api.js
     await faceapi.nets.ssdMobilenetv1.loadFromUri(uri);
     await faceapi.nets.faceLandmark68Net.loadFromUri(uri);
     await faceapi.nets.faceRecognitionNet.loadFromUri(uri);
-
-    // Set models loaded to true after all models are loaded
-    setModelsLoaded(true);
   };
 
   useEffect(() => {
     setTempAccount(location?.state?.account);
-  }, [location]);
-
+  }, []);
   useEffect(() => {
     if (tempAccount) {
       loadModels()
         .then(async () => {
           const labeledFaceDescriptors = await loadLabeledImages();
-          if (labeledFaceDescriptors.length > 0) {
-            setLabeledFaceDescriptors(labeledFaceDescriptors);
-          } else {
-            console.error("No labeled face descriptors found.");
-          }
-        });
+          setLabeledFaceDescriptors(labeledFaceDescriptors);
+        })
+        .then(() => setModelsLoaded(true));
     }
   }, [tempAccount]);
 
   useEffect(() => {
     if (loginResult === "SUCCESS") {
       const counterInterval = setInterval(() => {
-        setCounter((prevCounter) => prevCounter - 1);
+        setCounter((counter) => counter - 1);
       }, 1000);
 
       if (counter === 0) {
@@ -78,71 +73,18 @@ function FaceLogin() {
       return () => clearInterval(counterInterval);
     }
     setCounter(5);
-  }, [loginResult, counter, localUserStream, navigate, tempAccount]);
+  }, [loginResult, counter]);
 
-  useEffect(() => {
-    const checkCameraSupport = async () => {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert("Camera access is not supported in this browser.");
-        return false;
-      }
-      return true;
-    };
-
-    const initializeCamera = async () => {
-      const cameraSupported = await checkCameraSupport();
-      if (cameraSupported) {
-        getLocalUserVideo();  // Call the function to initialize the video stream
-      }
-    };
-
-    initializeCamera(); // Start checking and initializing the camera
-
-    if (videoRef.current) {
-      videoRef.current.addEventListener("canplay", () => {
-        videoRef.current.play(); // Ensure video starts playing once ready
-      });
-    }
-
-    return () => {
-      if (videoRef.current) {
-        videoRef.current.removeEventListener("canplay", () => {
-          videoRef.current.play(); // Cleanup event listener
-        });
-      }
-    };
-  }, [videoRef.current]); // Empty dependency array ensures this runs only once on mount
-
-  useEffect(() => {
-    const videoElement = videoRef.current;
-    // Ensure the video is paused when component is unmounted
-    return () => {
-      if (videoElement) {
-        videoElement.pause();
-        videoElement.srcObject = null;
-      }
-    };
-  }, []);  // Empty array ensures cleanup only on unmount
-
-  // Function to get video stream
   const getLocalUserVideo = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { width: videoWidth, height: videoHeight },
-        audio: false,
-      });
-
-      // Only set the video source if it's not already set
-      if (videoRef.current && !videoRef.current.srcObject) {
+    navigator.mediaDevices
+      .getUserMedia({ audio: false, video: true })
+      .then((stream) => {
         videoRef.current.srcObject = stream;
-        videoRef.current.play(); // Explicitly play the video once stream is set
-      }
-
-      setLocalUserStream(stream);
-    } catch (err) {
-      console.error("Error accessing camera:", err);
-      alert("Failed to access the camera. Please check permissions or your device.");
-    }
+        setLocalUserStream(stream);
+      })
+      .catch((err) => {
+        console.error("error:", err);
+      });
   };
 
   const scanFace = async () => {
@@ -157,12 +99,7 @@ function FaceLogin() {
         height: videoHeight,
       });
 
-      if (labeledFaceDescriptors.length === 0) {
-        console.error("No labeled face descriptors available.");
-        return;
-      }
-
-      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors); // Ensure labeledFaceDescriptors is correctly formatted
+      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors);
 
       const results = resizedDetections.map((d) =>
         faceMatcher.findBestMatch(d.descriptor)
@@ -183,19 +120,18 @@ function FaceLogin() {
       } else {
         setLoginResult("FAILED");
       }
+
+      if (!faceApiLoaded) {
+        setFaceApiLoaded(true);
+      }
     }, 1000 / 15);
     faceApiIntervalRef.current = faceApiInterval;
   };
 
   async function loadLabeledImages() {
     if (!tempAccount) {
-      return [];
+      return null;
     }
-
-    if (shouldRedirect) {
-      return <Navigate to="/" replace={true} />;
-    }
-
     const descriptions = [];
 
     let img;
@@ -204,12 +140,15 @@ function FaceLogin() {
       const imgPath =
         tempAccount?.type === "CUSTOM"
           ? tempAccount.picture
-          : `/temp-accounts/${tempAccount.picture}`;
+          : // : import.meta.env.DEV
+            // ? `/temp-accounts/${tempAccount.picture}`
+            // : `/react-face-auth/temp-accounts/${tempAccount.picture}`;
+            `/temp-accounts/${tempAccount.picture}`;
 
       img = await faceapi.fetchImage(imgPath);
     } catch {
       setImageError(true);
-      return [];
+      return;
     }
 
     const detections = await faceapi
@@ -218,21 +157,18 @@ function FaceLogin() {
       .withFaceDescriptor();
 
     if (detections) {
-      descriptions.push(detections.descriptor); // Ensure descriptor is added
+      descriptions.push(detections.descriptor);
     }
 
-    if (descriptions.length === 0) {
-      console.error("No face descriptors found.");
-    }
+    console.log(loginResult);
 
-    // Return LabeledFaceDescriptors correctly as an array
-    return [new faceapi.LabeledFaceDescriptors(tempAccount.id, descriptions)];
+    return new faceapi.LabeledFaceDescriptors(tempAccount.id, descriptions);
   }
 
   if (imageError) {
     return (
-      <div className="error-container">
-        <h2 className="error-title">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-[24px] max-w-[840px] mx-auto">
+        <h2 className="text-center text-3xl font-extrabold tracking-tight text-rose-700 sm:text-4xl">
           <span className="block">
             Upps! There is no profile picture associated with this account.
           </span>
@@ -245,43 +181,123 @@ function FaceLogin() {
   }
 
   return (
-    <div className="main-container">
+    <div className="h-full flex flex-col items-center justify-center gap-[24px] max-w-[720px] mx-auto">
       {!localUserStream && !modelsLoaded && (
-        <h2 className="loading-title">
+        <h2 className="text-center text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
           <span className="block">
             You're Attempting to Log In With Your Face.
           </span>
-          <span className="text-indigo-600 mt-2">Loading Models...</span>
+          <span className="block text-indigo-600 mt-2">Loading Models...</span>
         </h2>
       )}
       {!localUserStream && modelsLoaded && (
-        <h2 className="loading-title">
-          <span className="block">
-            You're Attempting to Log In With Your Face.
+        <h2 className="text-center text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <span className="block text-indigo-600 mt-2">
+            Please Recognize Your Face to Completely Log In.
           </span>
         </h2>
       )}
-      <div className="video-container">
-        <div className="video-wrapper">
+      {localUserStream && loginResult === "SUCCESS" && (
+        <h2 className="text-center text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <span className="block text-indigo-600 mt-2">
+            We've successfully recognize your face!
+          </span>
+          <span className="block text-indigo-600 mt-2">
+            Please stay {counter} more seconds...
+          </span>
+        </h2>
+      )}
+      {localUserStream && loginResult === "FAILED" && (
+        <h2 className="text-center text-3xl font-extrabold tracking-tight text-rose-700 sm:text-4xl">
+          <span className="block mt-[56px]">
+            Upps! We did not recognize your face.
+          </span>
+        </h2>
+      )}
+      {localUserStream && !faceApiLoaded && loginResult === "PENDING" && (
+        <h2 className="text-center text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <span className="block mt-[56px]">Scanning Face...</span>
+        </h2>
+      )}
+      <div className="w-full">
+        <div className="relative flex flex-col items-center p-[10px]">
           <video
-            ref={videoRef}
-            width={videoWidth}
-            height={videoHeight}
-            autoPlay
             muted
+            autoPlay
+            ref={videoRef}
+            height={videoHeight}
+            width={videoWidth}
             onPlay={scanFace}
-            className="rounded-xl"
+            style={{
+              objectFit: "fill",
+              height: "360px",
+              borderRadius: "10px",
+              display: localUserStream ? "block" : "none",
+            }}
           />
           <canvas
             ref={canvasRef}
-            width={videoWidth}
-            height={videoHeight}
-            className="rounded-xl"
+            style={{
+              position: "absolute",
+              display: localUserStream ? "block" : "none",
+            }}
           />
         </div>
+        {!localUserStream && (
+          <>
+            {modelsLoaded ? (
+              <>
+                <img
+                  alt="loading models"
+                  src={AuthFace}
+                  className="cursor-pointer my-8 mx-auto object-cover h-[272px]"
+                />
+                <button
+                  onClick={getLocalUserVideo}
+                  type="button"
+                  className="flex justify-center items-center w-full py-2.5 px-5 mr-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg border border-gray-200 inline-flex items-center"
+                >
+                  Scan my face
+                </button>
+              </>
+            ) : (
+              <>
+                <img
+                  alt="loading models"
+                  src={AuthIdle}
+                  className="cursor-pointer my-8 mx-auto object-cover h-[272px]"
+                />
+                <button
+                  disabled
+                  type="button"
+                  className="cursor-not-allowed flex justify-center items-center w-full py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 inline-flex items-center"
+                >
+                  <svg
+                    aria-hidden="true"
+                    role="status"
+                    className="inline mr-2 w-4 h-4 text-gray-200 animate-spin"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                      fill="#1C64F2"
+                    />
+                  </svg>
+                  Please wait while models were loading...
+                </button>
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
 }
 
-export default FaceLogin;
+export default Login;
